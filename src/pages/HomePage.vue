@@ -1,11 +1,17 @@
-<script setup>
-
+<script>
+import SearchPokemon from "../components/SearchPokemon.vue"; // Importo il componente di ricerca Pokemon
+export default {
+  components: {
+    SearchPokemon,
+  },
+  data() {
+    return {};
+  },
+};
 </script>
 
 <template>
-   <h1>HELLO</h1>
+  <SearchPokemon />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,13 +1,18 @@
-<script setup>
-// import { RouterLink, RouterView } from 'vue-router';
+<script>
+  export default {
+    data() {
+      return {
+
+
+      }
+    }
+  }
 </script>
 
 <template>
-  
+
   <router-view></router-view>
   <!-- <HomePage msg="Vite + Vue" /> -->
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
