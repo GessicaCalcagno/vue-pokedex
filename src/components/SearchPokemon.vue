@@ -23,6 +23,8 @@ export default {
         .get(url)
         .then((response) => {
           this.$emit("pokemon-found", response.data); // Invia i dati del Pokémon al componente padre HomePage
+        console.log(response);
+        
         })
         .catch((error) => {
           console.error("Errore durante la ricerca del Pokémon:", error);

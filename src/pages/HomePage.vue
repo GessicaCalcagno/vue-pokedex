@@ -11,8 +11,8 @@ export default {
   },
   data() {
     return {
-      pokemon: null,      // Per memorizzare i dati del Pokémon trovato
-      savedPokemons: [],  // Per memorizzare i Pokémon salvati
+      pokemon: null, // Per memorizzare i dati del Pokémon trovato
+      savedPokemons: this.getSavedPokemons(),
     };
   },
   methods: {
@@ -21,9 +21,26 @@ export default {
     },
     handleSavePokemon(pokemon) {
       // Evita di salvare duplicati
-      if (!this.savedPokemons.some(savedPokemon => savedPokemon.id === pokemon.id)) {
+      if (
+        !this.savedPokemons.some(
+          (savedPokemon) => savedPokemon.id === pokemon.id
+        )
+      ) {
         this.savedPokemons.push(pokemon); // Aggiunge il Pokémon alla lista dei salvati
+        this.updateLocalStorage();
       }
+    },
+    handleRemovePokemon(id) {
+      this.savedPokemons = this.savedPokemons.filter(
+        (pokemon) => pokemon.id !== id
+      );
+      this.updateLocalStorage();
+    },
+    getSavedPokemons() {
+      return JSON.parse(localStorage.getItem("savedPokemons")) || [];
+    },
+    updateLocalStorage() {
+      localStorage.setItem("savedPokemons", JSON.stringify(this.savedPokemons));
     },
   },
 };
@@ -34,13 +51,17 @@ export default {
     <!-- Sezione di sinistra: Ricerca e Dettagli del Pokémon -->
     <div class="pokedex-left">
       <SearchPokemon @pokemon-found="handlePokemonFound" />
-      <PokemonDetail v-if="pokemon" :pokemon="pokemon"  @save-pokemon="handleSavePokemon" />
+      <PokemonDetail
+        v-if="pokemon"
+        :pokemon="pokemon"
+        @save-pokemon="handleSavePokemon"
+      />
     </div>
     <div class="pokedex-right">
       <div class="list-pokemon">
-         <h2>My Pokemons</h2>
-         <!-- Lista dei Pokémon salvati -->
-         <SavedPokemonList :savedPokemons="savedPokemons" />
+        <h2>My Pokemons</h2>
+        <!-- Lista dei Pokémon salvati -->
+        <SavedPokemonList :savedPokemons="savedPokemons" @remove-pokemon="handleRemovePokemon" />
       </div>
     </div>
   </div>
@@ -64,8 +85,8 @@ export default {
   padding: 20px;
 }
 
-.list-pokemon{
-   background-color: white;
+.list-pokemon {
+  background-color: white;
 }
 
 h2 {

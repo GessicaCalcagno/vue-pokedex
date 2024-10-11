@@ -21,23 +21,46 @@ export default {
 <template>
   <div class="pokemon-detail">
     <div class="img-pokemon">
-      <img
-        :src="pokemon.sprites.front_default"
-        alt="Immagine Pokémon frontale"
-      />
+      <img :src="pokemon.sprites.front_default" alt="Immagine Pokémon frontale" />
     </div>
     <div class="pokemon-info">
       <h3>Name: {{ pokemon.name }}</h3>
-      <p>
-        Type: <span v-for="type in pokemon.types">{{ type.type.name }}</span>
-      </p>
+      <p>Type: <span v-for="type in pokemon.types" :key="type.type.name">{{ type.type.name }} </span></p>
       <p>Height: {{ pokemon.height }}</p>
       <p>Weight: {{ pokemon.weight }} lbs</p>
+
+      <!-- Sezione statistiche -->
+      <div class="pokemon-stats">
+        <h4>Stats</h4>
+        <div v-for="stat in pokemon.stats" :key="stat.stat.name" class="stat">
+          <p>{{ stat.stat.name }}: {{ stat.base_stat }}</p>
+          <div class="progress-bar">
+            <div class="progress" :style="{ width: stat.base_stat + '%' }"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- Pulsante per salvare il Pokémon -->
     <button @click="savePokemon">Salva nel Pokedex</button>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
+.pokemon-stats {
+  margin-top: 20px;
+}
+.stat {
+  margin-bottom: 10px;
+}
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  height: 10px;
+  width: 100%;
+}
+.progress {
+  background-color: #4caf50;
+  height: 100%;
+  border-radius: 10px;
+}
 </style>
+
